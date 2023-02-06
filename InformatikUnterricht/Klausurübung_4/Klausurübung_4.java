@@ -8,6 +8,7 @@ import javax.swing.event.*;
 public class Klausurübung_4 extends JFrame implements ActionListener, ChangeListener{
 
     int multiplyer;
+    int plusoperation;
     
     JTextField input, output;
     JPanel inputPanel, outputPanel;
@@ -37,7 +38,11 @@ public class Klausurübung_4 extends JFrame implements ActionListener, ChangeLis
 
 
         ascii = new JRadioButton("ASCII", true);
+        ascii.addActionListener(this);
+        ascii.setActionCommand("ascii");
         ean = new JRadioButton("EAN", false);
+        ean.addActionListener(this);
+        ean.setActionCommand("ean");
         radioButtonGroup = new ButtonGroup();
         radioButtonGroup.add(ascii);
         radioButtonGroup.add(ean);
@@ -74,6 +79,7 @@ public class Klausurübung_4 extends JFrame implements ActionListener, ChangeLis
 
         doit = new JButton("do it");
         doit.addActionListener(this);
+        doit.setActionCommand("doit");
 
         output = new JTextField(15);
         outputPanel = new JPanel();
@@ -100,8 +106,22 @@ public class Klausurübung_4 extends JFrame implements ActionListener, ChangeLis
     }
 
     public void actionPerformed(ActionEvent e) {
-        char result;
         
+        int result = 0;
+        char in = (input.getText()).charAt(0);
+        
+        if(e.getActionCommand().equals("ascii")){
+            plusoperation = 0;
+        }
+        if(e.getActionCommand().equals("ean")){
+            plusoperation = 16;
+        }
+
+        if(e.getActionCommand().equals("doit"))
+            result = in *= multiplyer + plusoperation;
+
+        output.setText(result + "");
+        repaint();
     }
 
 
