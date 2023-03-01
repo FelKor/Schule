@@ -1,6 +1,7 @@
 {
-    "java.project.sourcePaths": [
-        "JavaBook",
-        "InformatikUnterricht"
-    ]
+  "java.project.sourcePaths": [
+    "JavaBook",
+    "InformatikUnterricht",
+    "Rekursive-Grafik"
+  ]
 }
