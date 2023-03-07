@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class Igelgrafik extends JFrame implements ActionListener{
@@ -11,28 +12,82 @@ public class Igelgrafik extends JFrame implements ActionListener{
     Igel i = new Igel();
     A73 Quadrat = new A73();
     A74 vieleQuadrate = new A74();
-    JButton schalter01, schalter02;
+    BiBaum baum = new BiBaum();
+    JButton schalter01, schalter02, schalter03;
+    JTextField schalter01TextField, schalter02TextField, schalter03TextField;
   
     public Igelgrafik() {
     	
     	setLayout( new FlowLayout() );
     	setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     	
+
+
     	schalter01 = new JButton("zeichne Quadrat") ;
     	add(schalter01) ; 
     	schalter01.addActionListener(this ) ;
         schalter01.setActionCommand("Quadrat!");
+        
+        schalter01TextField = new JTextField(15);
+        schalter01TextField.addActionListener(this);
+        add(schalter01TextField);
+
+
+
         schalter02 = new JButton("zeichne viele Quadrate");
         add(schalter02);
         schalter02.addActionListener(this);
         schalter02.setActionCommand("vieleQuadrate!");
+
+        schalter02TextField = new JTextField(15);
+        schalter02TextField.addActionListener(this);
+        add(schalter02TextField);
+
+
+
+        schalter03 = new JButton("Baum");
+        add(schalter03);
+        schalter03.addActionListener(this);
+        schalter03.setActionCommand("Baum!");
+
+        schalter03TextField = new JTextField(15);
+        schalter01TextField.addActionListener(this);
+        add(schalter03TextField);
     }
     
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("Quadrat!"))
-            Quadrat.zeichne(50);
-        if(e.getActionCommand().equals("vieleQuadrate!"))
-            vieleQuadrate.zeichne(0, 10);
+
+        if(e.getActionCommand().equals("Quadrat!")){
+            int x = 50;
+            try{
+                x = Integer.parseInt(schalter01TextField.getText());
+            } catch(Exception ex){
+                schalter01TextField.setText("Geben Sie eine Zahl ein.");
+            }
+            Quadrat.zeichne(x);
+        }
+
+
+        if(e.getActionCommand().equals("vieleQuadrate!")){
+            int y = 10;
+            try{
+                y = Integer.parseInt(schalter02TextField.getText());
+            } catch(Exception ex){
+                schalter02TextField.setText("Geben Sie eine Zahl ein.");
+            }
+            vieleQuadrate.zeichne(0, y);
+        }
+
+
+        if(e.getActionCommand().equals("Baum!")){
+            int a = 140;
+            try{
+                a = Integer.parseInt(schalter03TextField.getText());
+            } catch(Exception ex){
+                schalter03TextField.setText("Geben Sie eine Zahl ein.");
+            }
+            baum.zeichne(a);
+        }
     }
     	
     class Igel {
@@ -42,17 +97,17 @@ public class Igelgrafik extends JFrame implements ActionListener{
     	double b=0; 
 
     	public void vor(int d) { 
-    	Graphics stift=getGraphics () ; 
-    	int dx=(int)(d*Math.sin(b)) ; 
-    	int dy=(int)(d*Math.cos(b)) ; 
-    	int xe=xa+dx; int ye=ya-dy; 
-    	stift.drawLine(xa,ya,xe,ye); 
-    	xa=xe; ya=ye; 
+    	    Graphics stift=getGraphics () ; 
+    	    int dx=(int)(d*Math.sin(b)) ; 
+    	    int dy=(int)(d*Math.cos(b)) ; 
+    	    int xe=xa+dx; int ye=ya-dy; 
+    	    stift.drawLine(xa,ya,xe,ye); 
+    	    xa=xe; ya=ye; 
     	} 
+
     	public void rechts(int Winkel ) { 
-    		
-    	phi= phi + Winkel ; 
-    	b=2*Math.PI*phi/360; 
+    	    phi= phi + Winkel ; 
+    	    b=2*Math.PI*phi/360; 
     	}
 
         public void links(int Winkel){
@@ -60,6 +115,7 @@ public class Igelgrafik extends JFrame implements ActionListener{
             b = 2*Math.PI*phi/360;
         }
     }
+
 
     class A73{
         int n = 4;
@@ -75,6 +131,7 @@ public class Igelgrafik extends JFrame implements ActionListener{
             }
         }
     }
+
 
     class A74{
         public void zeichne(){
@@ -96,6 +153,21 @@ public class Igelgrafik extends JFrame implements ActionListener{
                 }
                 i.phi = 0;
                 vieleQuadrate.zeichne(startwert+winkel, winkel);
+            }
+        }
+    }
+
+    
+    class BiBaum{
+        public void zeichne(int l){
+            if(l>2){
+                i.vor(l);
+                i.rechts(90); i.vor(l); i.rechts(-90);
+                zeichne(l/2);
+                i.rechts(90); i.vor(-2*l); i.rechts(-90);
+                zeichne(l/2);
+                i.rechts(90); i.vor(l); i.rechts(-90);
+                i.vor(-l);
             }
         }
     }
